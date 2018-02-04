@@ -1,11 +1,15 @@
 import React from 'react';
 
-export default () => (
+const BlogPost = ({
+  link, title, date, content,
+}) => (
   <div>
-    <h1><a href={this.props.link}>{this.props.title}</a></h1>
-    <p>{this.props.date}</p>
+    <h1><a href={link}>{title}</a></h1>
+    <p>{date}</p>
     <br />
-    {this.props.content}
+    <div dangerouslySetInnerHTML={{ __html: content }} />
   </div>
 );
 
+
+export default BlogPost;

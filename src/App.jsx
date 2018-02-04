@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import {
   BrowserRouter as Router,
+  Route,
 } from 'react-router-dom';
-import axios from 'axios';
 
-import PostExcerpt from './PostExcerpt';
+import Posts from './Posts';
+import BlogPost from './BlogPost';
 import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
+export default class App extends Component {
   constructor(...args) {
     super(...args);
-    this.state = { posts: [], loaded: false };
+    this.state = {posts: [], loaded: false};
     this.URL = 'https://api.myjson.com/bins/akwk9';
   }
-
 
   componentDidMount() {
     axios
@@ -28,33 +29,22 @@ class App extends Component {
   }
 
   render() {
-    const { posts, loaded } = this.state;
-    return (
-      <Router>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">React 303 Test</h1>
-          </header>
-          {loaded ? (
-          (
-            posts.map(post => (
-              <PostExcerpt
-                id={post.id}
-                title={post.title.rendered}
-                date={post.date}
-                excerpt={post.excerpt.rendered}
-                key={post.id}
-              />
-            ))
-          )
-        ) : (
-          <p>Loading...</p>
-        )}
-        </div>
-      </Router>
-    );
-  }
+    return (<Router>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h1 className="App-title">React 303 Test</h1>
+      </header>
+      {this.state.loaded ?  (
+        <div>
+      <Route exact path="/" render={(routeProps) => (<Posts posts={this.state.posts} />)} />
+      <Route path="/:id" render={(routeProps) => {
+        const post = this.state.posts.find(p => String(p.id) === routeProps.match.params.id);
+        return <BlogPost title={post.title.rendered} link={post.link} content={post.content.rendered}/>;
+      }} /></div>
+    ) : (<p>Loading...</p>)
+      }
+    </div>
+  </Router>
+    )}
 }
-
-export default App;
