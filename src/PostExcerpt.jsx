@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {
+  Link,
+} from 'react-router-dom';
 
-export default class PostExcerpt extends Component {
-  render() {
-    return (
-      <div>
-        <h1>
-          <a href={this.props.link}>{this.props.title}</a>
-        </h1>
-        <p>{this.props.date}</p>
-        <br />
-        <div dangerouslySetInnerHTML={{ __html: this.props.excerpt }} />
-      </div>
-    );
-  }
-}
+export default props => (
+  <div>
+    <h1>
+      <Link to={`/${props.id}`}>{props.title}</Link>
+    </h1>
+    <p>{props.date}</p>
+    <br />
+    <div dangerouslySetInnerHTML={{ __html: props.excerpt }} />
+  </div>
+);

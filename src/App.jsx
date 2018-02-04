@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
 import axios from 'axios';
 
 import PostExcerpt from './PostExcerpt';
@@ -15,7 +18,7 @@ class App extends Component {
 
   componentDidMount() {
     axios
-      .get(App.URL)
+      .get(this.URL)
       .then(({ data }) => {
         this.setState({ posts: data, loaded: true });
       })
@@ -27,16 +30,17 @@ class App extends Component {
   render() {
     const { posts, loaded } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">React 303 Test</h1>
-        </header>
-        {loaded ? (
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">React 303 Test</h1>
+          </header>
+          {loaded ? (
           (
             posts.map(post => (
               <PostExcerpt
-                link={post.link}
+                id={post.id}
                 title={post.title.rendered}
                 date={post.date}
                 excerpt={post.excerpt.rendered}
@@ -47,7 +51,8 @@ class App extends Component {
         ) : (
           <p>Loading...</p>
         )}
-      </div>
+        </div>
+      </Router>
     );
   }
 }
